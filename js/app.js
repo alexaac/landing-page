@@ -30,7 +30,6 @@ const navigationMenuList = document.getElementById("navbar__list");
 
 /**
  * @description Create new menu item
- * @constructor
  * @param {Object} section - newly created section
  */
 const createMenuItem = (section) => {
@@ -39,6 +38,7 @@ const createMenuItem = (section) => {
 
   menuLink.setAttribute("href", `#${section.id}`);
   menuLink.textContent = section.querySelector("h2").innerHTML;
+  menuLink.className = "menu__link";
 
   menuItem.appendChild(menuLink);
 
@@ -47,7 +47,6 @@ const createMenuItem = (section) => {
 
 /**
  * @description Add menu item
- * @constructor
  * @param {Object} section - newly created section
  */
 const addMenuItem = (section) => {
@@ -57,13 +56,25 @@ const addMenuItem = (section) => {
 
 /**
  * @description Remove menu item
- * @constructor
  * @param {Object} section - deleted section
  */
 const removeMenuItem = (section) => {
   const menuLink = document.querySelector(`[href^="#${section.id}"]`);
   const menuItem = menuLink.parentElement;
   navigationMenuList.removeChild(menuItem);
+};
+
+/**
+ * @description Check the current section is in the viewport
+ * @param {Object} section - current section
+ */
+const isSectionInViewport = (section) => {
+  const position = section.getBoundingClientRect();
+
+  // partially visible
+  // position.top < window.innerHeight && position.bottom >= 0
+  // fully visible
+  return position.top >= 0 && position.bottom <= window.innerHeight;
 };
 
 /**
@@ -76,7 +87,6 @@ const removeMenuItem = (section) => {
 
 /**
  * @description Populate menu list from sections list on page load
- * @constructor
  * @param {Object} sectionsList - all sections on page
  */
 const createMenuItems = (sectionsList) => {
@@ -93,7 +103,6 @@ const createMenuItems = (sectionsList) => {
 
 /**
  * @description Update menu on section add/remove
- * @constructor
  * @param {Object} event - DOMNodeRemoved or DOMNodeInserted
  */
 const updateMenuList = (event) => {
@@ -110,7 +119,20 @@ const updateMenuList = (event) => {
     }
   }
 };
+
 // Add class 'active' to section when near top of viewport
+
+/**
+ * @description Add class 'active' to the section in viewport
+ * @param {Object} event - scroll
+ */
+const toggleSectionActive = (section) => {
+  if (isSectionInViewport(section)) {
+    section.classList.add("your-active-class");
+  } else {
+    section.classList.remove("your-active-class");
+  }
+};
 
 // Scroll to anchor ID using scrollTO event
 
@@ -128,6 +150,12 @@ navigationMenuList.appendChild(tempItemsList);
 mainContent.addEventListener("DOMNodeInserted", updateMenuList, false);
 mainContent.addEventListener("DOMNodeRemoved", updateMenuList, false);
 
-// Scroll to section on link click
-
 // Set sections as active
+
+for (const section of sectionsList) {
+  document.addEventListener("scroll", (e) => {
+    toggleSectionActive(section);
+  });
+}
+
+// Scroll to section on link click
