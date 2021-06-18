@@ -26,6 +26,7 @@ const main = () => {
   const sectionsList = document.getElementsByTagName("section");
   const mainContent = document.querySelector("main");
   const navigationMenuList = document.getElementById("navbar__list");
+  const navigationMenu = document.querySelector(".navbar__menu");
 
   /**
    * End Global Variables
@@ -162,6 +163,38 @@ const main = () => {
       behavior: "smooth",
     });
   };
+
+  // Hide navigation menu when user stops scrolling
+
+  let isScrolling; // timeout variable
+  let prevPos = window.pageYOffset; // scrolling position
+
+  /**
+   * @description Hide navigation menu when user stops scrolling
+   */
+  const hideNavigationMenu = () => {
+    const currentPos = window.pageYOffset;
+
+    // Clear timeout when scrolling
+    window.clearTimeout(isScrolling);
+
+    // Show menu while scrolling
+    navigationMenu.classList.remove("hide");
+
+    // Set timeout to run after scrolling ends
+    isScrolling = setTimeout(function () {
+      // Hide menu while not scrolling
+      navigationMenu.classList.add("hide");
+
+      if (prevPos > currentPos) {
+        // Show menu while scrolling up
+        navigationMenu.classList.remove("hide");
+      }
+
+      prevPos = currentPos;
+    }, 66);
+  };
+
   /**
    * End Main Functions
    * Begin Events
@@ -179,7 +212,7 @@ const main = () => {
   // Set sections as active
 
   for (const section of sectionsList) {
-    document.addEventListener("scroll", (e) => {
+    document.addEventListener("scroll", () => {
       toggleSectionActive(section);
     });
   }
@@ -192,6 +225,18 @@ const main = () => {
   for (const anchor of anchorsList) {
     anchor.addEventListener("click", scrollToSection);
   }
+
+  // Hide fixed navigation bar while not scrolling
+  // Show navigation on page load and when scrolling up
+  // Use addEventListener instead of .onunload to allow more
+  // functions in the future
+  document.addEventListener("unload", () => {
+    navigationMenu.classList.remove("hide");
+  });
+
+  document.addEventListener("scroll", () => {
+    hideNavigationMenu();
+  });
 
   // Test performance end
   const endTime = performance.now();
