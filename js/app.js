@@ -30,6 +30,9 @@ const main = () => {
   const navigationMenu = document.querySelector(".navbar__menu");
   const topBtn = document.getElementById("top-btn");
 
+  let isScrolling; // timeout variable for scroll event
+  let prevPos = window.pageYOffset; // scrolling position - overwritable
+  const initialPos = window.pageYOffset; // scrolling position
   /**
    * End Global Variables
    * Start Helper Functions
@@ -90,8 +93,6 @@ const main = () => {
    *
    */
 
-  // Build the navigation menu on page load
-
   /**
    * @description Populate menu list from sections list on page load
    * @param {Object} sectionsList - all sections on page
@@ -127,8 +128,6 @@ const main = () => {
     }
   };
 
-  // Add class 'active' to section when near top of viewport
-
   /**
    * @description Add class 'active' to the section in viewport
    * @param {Object} event - scroll
@@ -144,8 +143,6 @@ const main = () => {
       menuLink.classList.remove("link-active-class");
     }
   };
-
-  // Scroll to anchor ID using scrollTO event
 
   /**
    * @description Scroll to section on menu click
@@ -165,11 +162,6 @@ const main = () => {
       behavior: "smooth",
     });
   };
-
-  // Hide navigation menu when user stops scrolling
-
-  let isScrolling; // timeout variable
-  let prevPos = window.pageYOffset; // scrolling position
 
   /**
    * @description Hide navigation menu when user stops scrolling
@@ -197,9 +189,6 @@ const main = () => {
     }, 66);
   };
 
-  // Scroll to top button visible when the user scrolls below the fold of the page
-  let initialPos = window.pageYOffset; // scrolling position
-
   /**
    * @description Scroll to top button
    */
@@ -213,8 +202,6 @@ const main = () => {
     }
   };
 
-  // Collapse sections
-
   /**
    * @description Collapse section on click
    * @param {Object} section - section
@@ -227,7 +214,6 @@ const main = () => {
     const section = sectionHeader.parentElement;
 
     const paragraphs = section.querySelectorAll("p");
-
     for (paragraph of paragraphs) {
       paragraph.classList.toggle("hide");
     }
@@ -248,7 +234,6 @@ const main = () => {
   mainContent.addEventListener("DOMNodeRemoved", updateMenuList);
 
   // Set sections as active
-
   for (const section of sectionsList) {
     document.addEventListener("scroll", () => {
       toggleSectionActive(section);
@@ -256,18 +241,13 @@ const main = () => {
   }
 
   // Scroll to section on link click
-
-  // Make a list of anchor links
   let anchorsList = document.querySelectorAll('a[href^="#section"]');
-
   for (const anchor of anchorsList) {
     anchor.addEventListener("click", scrollToSection);
   }
 
   // Hide fixed navigation bar while not scrolling
   // Show navigation on page load and when scrolling up
-  // Use addEventListener instead of .onunload to allow more
-  // functions in the future
   document.addEventListener("unload", () => {
     navigationMenu.classList.remove("hide-top");
   });
@@ -278,7 +258,6 @@ const main = () => {
 
   // Scroll to top button
   topBtn.classList.add("hide-right");
-
   document.addEventListener("scroll", () => {
     toggleScrollToTopButton();
   });
