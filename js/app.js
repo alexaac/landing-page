@@ -76,10 +76,7 @@ const main = () => {
   const isSectionInViewport = (section) => {
     const position = section.getBoundingClientRect();
 
-    // partially visible
-    // position.top < window.innerHeight && position.bottom >= 0
-    // TODO: treat case on mobile when only one section in the viewport
-    // fully visible
+    // for our purpose, use fully visible check
     // position.top >= 0 && position.bottom <= window.innerHeight
     return position.top >= 0 && position.bottom <= window.innerHeight;
   };
@@ -134,10 +131,14 @@ const main = () => {
    * @param {Object} event - scroll
    */
   const toggleSectionActive = (section) => {
+    const menuLink = document.querySelector(`[href^="#${section.id}"]`);
+
     if (isSectionInViewport(section)) {
       section.classList.add("your-active-class");
+      menuLink.classList.add("link-active-class");
     } else {
       section.classList.remove("your-active-class");
+      menuLink.classList.remove("link-active-class");
     }
   };
 
@@ -159,7 +160,6 @@ const main = () => {
     // Scroll to section
     section.scrollIntoView({
       behavior: "smooth",
-      block: "center",
     });
   };
   /**
