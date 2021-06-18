@@ -24,6 +24,7 @@ const main = () => {
    */
 
   const sectionsList = document.getElementsByTagName("section");
+  const sectionsHeaderList = document.getElementsByTagName("h2");
   const mainContent = document.querySelector("main");
   const navigationMenuList = document.getElementById("navbar__list");
   const navigationMenu = document.querySelector(".navbar__menu");
@@ -180,16 +181,16 @@ const main = () => {
     window.clearTimeout(isScrolling);
 
     // Show menu while scrolling
-    navigationMenu.classList.remove("hide");
+    navigationMenu.classList.remove("hide-top");
 
     // Set timeout to run after scrolling ends
     isScrolling = setTimeout(function () {
       // Hide menu while not scrolling
-      navigationMenu.classList.add("hide");
+      navigationMenu.classList.add("hide-top");
 
       if (prevPos > currentPos) {
         // Show menu while scrolling up
-        navigationMenu.classList.remove("hide");
+        navigationMenu.classList.remove("hide-top");
       }
 
       prevPos = currentPos;
@@ -206,9 +207,28 @@ const main = () => {
     const currentPos = window.pageYOffset;
 
     if (currentPos - initialPos > window.innerHeight) {
-      topBtn.classList.remove("hide");
+      topBtn.classList.remove("hide-right");
     } else {
-      topBtn.classList.add("hide");
+      topBtn.classList.add("hide-right");
+    }
+  };
+
+  // Collapse sections
+
+  /**
+   * @description Collapse section on click
+   * @param {Object} section - section
+   */
+
+  const toggleSectionCollapse = (event) => {
+    const sectionHeader = event.target;
+
+    const section = sectionHeader.parentElement;
+    section.classList.toggle("your-active-class");
+    const paragraphs = section.querySelectorAll("p");
+
+    for (paragraph of paragraphs) {
+      paragraph.classList.toggle("hide");
     }
   };
 
@@ -248,23 +268,30 @@ const main = () => {
   // Use addEventListener instead of .onunload to allow more
   // functions in the future
   document.addEventListener("unload", () => {
-    navigationMenu.classList.remove("hide");
+    navigationMenu.classList.remove("hide-top");
   });
 
   document.addEventListener("scroll", () => {
     toggleNavigationMenu();
   });
 
-  // Test performance end
-  const endTime = performance.now();
-  console.log("Time to run: " + (endTime - startTime) + " milliseconds.");
-
   // Scroll to top button
-  topBtn.classList.add("hide");
+  topBtn.classList.add("hide-right");
 
   document.addEventListener("scroll", () => {
     toggleScrollToTopButton();
   });
+
+  // Collapse sections
+  for (sectionHeader of sectionsHeaderList) {
+    sectionHeader.addEventListener("click", (event) => {
+      toggleSectionCollapse(event);
+    });
+  }
+
+  // Test performance end
+  const endTime = performance.now();
+  console.log("Time to run: " + (endTime - startTime) + " milliseconds.");
 };
 
 // Run main function on DOMContentLoaded

@@ -40,6 +40,7 @@ h2 {
   font-family: "Oxygen", Sans-Serif;
   font-size: 3em;
   color: #fff;
+  cursor: pointer;
 }
 
 p {
@@ -59,14 +60,14 @@ main {
 
 section {
   position: relative;
-  min-height: 80vh;
+  /* min-height: 80vh; */
 }
 
 /* ---- Module Rules ---- */
 
 /* Navigation Styles*/
 
-.navbar__menu.hide {
+.navbar__menu.hide-top {
   margin-top: -200px;
   transition: margin-top 3s ease-in;
 }
@@ -255,9 +256,15 @@ section.your-active-class .landing__container::after {
   border-color: #333;
 }
 
-.top-btn.hide {
+.top-btn.hide-right {
   margin-right: -200px;
-  transition: margin-top 3s ease-in;
+  transition: margin-top 2s ease-in;
+}
+
+/* General hide */
+
+.hide {
+  display: none;
 }
 
 /* Section Active Styles Keyframe Animations */
