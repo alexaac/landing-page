@@ -222,9 +222,10 @@ const main = () => {
 
   const toggleSectionCollapse = (event) => {
     const sectionHeader = event.target;
+    sectionHeader.classList.toggle("active");
 
     const section = sectionHeader.parentElement;
-    section.classList.toggle("your-active-class");
+
     const paragraphs = section.querySelectorAll("p");
 
     for (paragraph of paragraphs) {

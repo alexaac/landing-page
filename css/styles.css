@@ -43,6 +43,12 @@ h2 {
   cursor: pointer;
 }
 
+h2.active {
+  color: rgb(192, 189, 189);
+  background: rgba(51, 51, 51, 0.308);
+  transition: ease 0.3s all;
+}
+
 p {
   line-height: 1.6em;
   color: #eee;
