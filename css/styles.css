@@ -66,7 +66,7 @@ section {
 
 /* Navigation Styles*/
 
-.hide {
+.navbar__menu.hide {
   margin-top: -200px;
   transition: margin-top 3s ease-in;
 }
@@ -228,6 +228,36 @@ section.your-active-class .landing__container::before {
 section.your-active-class .landing__container::after {
   opacity: 1;
   animation: rotate 5s linear 0s infinite forwards reverse;
+}
+
+/* Scroll to top link */
+.top-btn {
+  position: fixed;
+  bottom: 20px;
+  float: right;
+  right: 10px;
+  max-width: 30px;
+  width: 100%;
+  font-size: 12px;
+  color: #fff;
+  background-color: #333;
+  border-color: #fff;
+  padding: 0.5px;
+  border-radius: 4px;
+  z-index: 1;
+  opacity: 1;
+  cursor: pointer;
+}
+
+.top-btn:hover {
+  color: #333;
+  background-color: #fff;
+  border-color: #333;
+}
+
+.top-btn.hide {
+  margin-right: -200px;
+  transition: margin-top 3s ease-in;
 }
 
 /* Section Active Styles Keyframe Animations */

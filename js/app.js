@@ -27,6 +27,7 @@ const main = () => {
   const mainContent = document.querySelector("main");
   const navigationMenuList = document.getElementById("navbar__list");
   const navigationMenu = document.querySelector(".navbar__menu");
+  const topBtn = document.getElementById("top-btn");
 
   /**
    * End Global Variables
@@ -172,7 +173,7 @@ const main = () => {
   /**
    * @description Hide navigation menu when user stops scrolling
    */
-  const hideNavigationMenu = () => {
+  const toggleNavigationMenu = () => {
     const currentPos = window.pageYOffset;
 
     // Clear timeout when scrolling
@@ -193,6 +194,22 @@ const main = () => {
 
       prevPos = currentPos;
     }, 66);
+  };
+
+  // Scroll to top button visible when the user scrolls below the fold of the page
+  let initialPos = window.pageYOffset; // scrolling position
+
+  /**
+   * @description Scroll to top button
+   */
+  const toggleScrollToTopButton = () => {
+    const currentPos = window.pageYOffset;
+
+    if (currentPos - initialPos > window.innerHeight) {
+      topBtn.classList.remove("hide");
+    } else {
+      topBtn.classList.add("hide");
+    }
   };
 
   /**
@@ -220,7 +237,7 @@ const main = () => {
   // Scroll to section on link click
 
   // Make a list of anchor links
-  let anchorsList = document.querySelectorAll('a[href^="#"]');
+  let anchorsList = document.querySelectorAll('a[href^="#section"]');
 
   for (const anchor of anchorsList) {
     anchor.addEventListener("click", scrollToSection);
@@ -235,12 +252,19 @@ const main = () => {
   });
 
   document.addEventListener("scroll", () => {
-    hideNavigationMenu();
+    toggleNavigationMenu();
   });
 
   // Test performance end
   const endTime = performance.now();
   console.log("Time to run: " + (endTime - startTime) + " milliseconds.");
+
+  // Scroll to top button
+  topBtn.classList.add("hide");
+
+  document.addEventListener("scroll", () => {
+    toggleScrollToTopButton();
+  });
 };
 
 // Run main function on DOMContentLoaded
