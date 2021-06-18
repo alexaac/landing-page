@@ -73,7 +73,9 @@ const isSectionInViewport = (section) => {
 
   // partially visible
   // position.top < window.innerHeight && position.bottom >= 0
+  // TODO: treat case on mobile when only one section in the viewport
   // fully visible
+  // position.top >= 0 && position.bottom <= window.innerHeight
   return position.top >= 0 && position.bottom <= window.innerHeight;
 };
 
@@ -137,6 +139,25 @@ const toggleSectionActive = (section) => {
 // Scroll to anchor ID using scrollTO event
 
 /**
+ * @description Scroll to section on menu click
+ * @param {Object} event - click
+ */
+const scrollToSection = (event) => {
+  const anchor = event.target;
+
+  // Prevent clicking default behaviour
+  event.preventDefault();
+
+  // Get the section
+  let section = document.querySelector(anchor.hash);
+
+  // Scroll to section
+  section.scrollIntoView({
+    behavior: "smooth",
+    block: "center",
+  });
+};
+/**
  * End Main Functions
  * Begin Events
  *
@@ -147,8 +168,8 @@ const tempItemsList = createMenuItems(sectionsList);
 navigationMenuList.appendChild(tempItemsList);
 
 // Dinamically update menu
-mainContent.addEventListener("DOMNodeInserted", updateMenuList, false);
-mainContent.addEventListener("DOMNodeRemoved", updateMenuList, false);
+mainContent.addEventListener("DOMNodeInserted", updateMenuList);
+mainContent.addEventListener("DOMNodeRemoved", updateMenuList);
 
 // Set sections as active
 
@@ -159,3 +180,10 @@ for (const section of sectionsList) {
 }
 
 // Scroll to section on link click
+
+// Make a list of anchor links
+let anchorsList = document.querySelectorAll('a[href^="#"]');
+
+for (const anchor of anchorsList) {
+  anchor.addEventListener("click", scrollToSection);
+}
