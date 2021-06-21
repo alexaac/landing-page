@@ -106,11 +106,11 @@ const main = () => {
   const createMenuItems = (sectionsList) => {
     const tempList = document.createDocumentFragment();
 
-    for (const section of sectionsList) {
+    [...sectionsList].forEach((section) => {
       const menuItem = createMenuItem(section);
 
       tempList.append(menuItem);
-    }
+    });
 
     return tempList;
   };
@@ -220,9 +220,10 @@ const main = () => {
     const section = sectionHeader.parentElement;
 
     const paragraphs = section.querySelectorAll("p");
-    for (paragraph of paragraphs) {
+
+    paragraphs.forEach((paragraph) => {
       paragraph.classList.toggle("hide");
-    }
+    });
   };
 
   /**
@@ -240,17 +241,17 @@ const main = () => {
   mainContent.addEventListener("DOMNodeRemoved", updateMenuList);
 
   // Set sections as active
-  for (const section of sectionsList) {
+  [...sectionsList].forEach((section) => {
     document.addEventListener("scroll", () => {
       toggleSectionActive(section);
     });
-  }
+  });
 
   // Scroll to section on link click
   let anchorsList = document.querySelectorAll('a[href^="#section"]');
-  for (const anchor of anchorsList) {
+  anchorsList.forEach((anchor) => {
     anchor.addEventListener("click", scrollToSection);
-  }
+  });
 
   // Hide fixed navigation bar while not scrolling
   // Show navigation on page load and when scrolling up
@@ -269,11 +270,11 @@ const main = () => {
   });
 
   // Collapse sections
-  for (sectionHeader of sectionsHeaderList) {
+  [...sectionsHeaderList].forEach((sectionHeader) => {
     sectionHeader.addEventListener("click", (event) => {
       toggleSectionCollapse(event);
     });
-  }
+  });
 
   // Test performance end
   const endTime = performance.now();
