@@ -82,9 +82,15 @@ const main = () => {
   const isSectionInViewport = (section) => {
     const position = section.getBoundingClientRect();
 
-    // for our purpose, use fully visible check
-    // position.top >= 0 && position.bottom <= window.innerHeight
-    return position.top >= 0 && position.bottom <= window.innerHeight;
+    // use partial visibility check
+    // https://stackoverflow.com/a/26039199
+
+    const vertInView =
+      position.top <= window.innerHeight && position.top + position.height >= 0;
+    const horInView =
+      position.left <= window.innerWidth && position.left + position.width >= 0;
+
+    return vertInView && horInView;
   };
 
   /**
