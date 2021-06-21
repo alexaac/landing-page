@@ -368,7 +368,6 @@ const main = () => {
 
   // Test performance end
   const endTime = performance.now();
-  // console.log('Time to run: ' + (endTime - startTime) + ' milliseconds.');
 };
 
 // Run main function on DOMContentLoaded
